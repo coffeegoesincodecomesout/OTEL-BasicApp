@@ -31,7 +31,7 @@ func main() {
 	}()
 	otel.SetTracerProvider(tracerProvider)
         
-        http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+        http.HandleFunc("/ping" , func(w http.ResponseWriter, r *http.Request) {
 		trace := otel.Tracer("http-server")
 		_, span := trace.Start(r.Context(), "handleRequest")
 		defer span.End()
