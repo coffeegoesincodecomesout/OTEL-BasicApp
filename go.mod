@@ -1,6 +1,8 @@
 module testapp
 
-go 1.22.12
+go 1.22.0
+
+toolchain go1.22.12
 
 require (
 	go.opentelemetry.io/otel v1.35.0
