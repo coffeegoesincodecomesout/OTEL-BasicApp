@@ -36,7 +36,7 @@ func main() {
 		_, span := trace.Start(r.Context(), "handleRequest")
 		defer span.End()
 
-		time.Sleep(100 * time.Millisecond)
+		time.Sleep(1 * time.Second)
 		span.SetStatus(codes.Ok, "Status 200")
 
                 fmt.Fprintf(w,"pong")
