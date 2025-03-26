@@ -1,6 +1,6 @@
-#TestApp-Ping-OTEL - I use this to demonstrate OTEL instrumentation
+# TestApp-Ping-OTEL - I use this to demonstrate OTEL instrumentation
 
-###Instructions
+### Instructions
 
 1. Ensure the Red Hat Build of OpenTelemetry operator is installed on your cluster
 
