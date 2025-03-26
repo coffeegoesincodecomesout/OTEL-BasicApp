@@ -1,0 +1,52 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ns1 
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: otel-example-deployment
+  namespace: ns1
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: otel-example
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: otel-example
+    spec:
+      containers:
+      - env:
+        - name: OTEL_EXPORTER_OTLP_ENDPOINT
+          value: http://otel-collector.observability.svc.cluster.local:4317
+        - name: OTEL_EXPORTER_OTLP_PROTOCOL
+          value: grpc
+        - name: OTEL_SERVICE_NAME
+          value: otel-example-service
+        image: <###INCLUDE CONTAINER IMAGE HERE###> 
+        imagePullPolicy: Always
+        name: otel-example
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
