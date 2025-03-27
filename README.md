@@ -7,7 +7,7 @@
 2. Create a namespace, launch deployment, create service and route.
 
 ```
-$ oc apply -f deployment.yaml
+$ oc apply -f otel-deploy.yaml
 $ oc apply -f expose.yaml
 ```
 
