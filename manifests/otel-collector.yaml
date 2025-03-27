@@ -1,0 +1,65 @@
+---
+
+apiVersion: opentelemetry.io/v1beta1
+kind: OpenTelemetryCollector
+metadata:
+  name: otel
+  namespace: observability
+spec:
+  config:
+    exporters:
+      debug:
+        verbosity: detailed
+    processors:
+      batch: {} 
+      memory_limiter:
+        check_interval: 1s
+        limit_percentage: 50
+        spike_limit_percentage: 30
+      resourcedetection:
+        detectors:
+        - openshift
+        timeout: 2s
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+            endpoint: 0.0.0.0:4317
+          http:
+            endpoint: 0.0.0.0:4318
+    service:
+      pipelines:
+        metrics:
+          exporters:
+          - debug
+          processors:
+          - memory_limiter
+          - resourcedetection
+          - batch
+          receivers:
+          - otlp
+        traces:
+          exporters:
+          - debug
+          processors:
+          - memory_limiter
+          - resourcedetection
+          - batch
+          receivers:
+          - otlp
+      telemetry:
+        metrics:
+          address: 0.0.0.0:8888
+  ipFamilyPolicy: SingleStack
+  managementState: managed
+  mode: deployment
+  observability:
+    metrics: {}
+  podDnsConfig: {}
+  replicas: 1
+  resources: {}
+  serviceAccount: otel-collector-deployment
+  targetAllocator:
+    allocationStrategy: consistent-hashing
+    filterStrategy: relabel-config
+  upgradeStrategy: automatic-
