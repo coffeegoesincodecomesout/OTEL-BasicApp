@@ -1,3 +1,5 @@
+---
+
 apiVersion: opentelemetry.io/v1beta1
 kind: OpenTelemetryCollector
 metadata:
@@ -60,4 +62,4 @@ spec:
   targetAllocator:
     allocationStrategy: consistent-hashing
     filterStrategy: relabel-config
-  upgradeStrategy: automatic
+  upgradeStrategy: automatic-
